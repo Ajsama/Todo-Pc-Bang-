@@ -1,0 +1,62 @@
+{
+  "name": "pc-bang-manager",
+  "productName": "PC Bang Manager",
+  "version": "1.0.0",
+  "description": "Application de gestion de cybercafé PC Bang",
+  "main": ".vite/build/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts .",
+    "db:generate": "prisma generate --schema=src/main/repositories/prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema=src/main/repositories/prisma/schema.prisma",
+    "db:seed": "ts-node prisma/seed.ts",
+    "db:setup": "npm run db:migrate && npm run db:seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "keywords": [],
+  "author": "kamoune",
+  "license": "MIT",
+  "devDependencies": {
+    "@analogjs/vite-plugin-angular": "^1.10.0",
+    "@angular/build": "^19.2.26",
+    "@angular/compiler-cli": "^19.2.22",
+    "@electron-forge/cli": "^7.9.0",
+    "@electron-forge/maker-deb": "^7.9.0",
+    "@electron-forge/maker-rpm": "^7.9.0",
+    "@electron-forge/maker-squirrel": "^7.9.0",
+    "@electron-forge/maker-zip": "^7.9.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.9.0",
+    "@electron-forge/plugin-fuses": "^7.9.0",
+    "@electron-forge/plugin-vite": "^7.9.0",
+    "@electron/fuses": "^1.8.0",
+    "@types/electron-squirrel-startup": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "electron": "38.2.1",
+    "eslint": "^8.57.1",
+    "eslint-plugin-import": "^2.32.0",
+    "prisma": "^6.17.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.20"
+  },
+  "dependencies": {
+    "@angular/common": "^19.2.22",
+    "@angular/compiler": "^19.2.22",
+    "@angular/core": "^19.2.22",
+    "@angular/forms": "^19.2.22",
+    "@angular/platform-browser": "^19.2.22",
+    "@angular/platform-browser-dynamic": "^19.2.22",
+    "@angular/router": "^19.2.22",
+    "@prisma/client": "^6.17.1",
+    "dotenv": "^17.2.3",
+    "electron-squirrel-startup": "^1.0.1",
+    "rxjs": "^7.8.2",
+    "zone.js": "^0.15.1"
+  }
+}
