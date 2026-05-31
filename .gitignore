@@ -57,11 +57,12 @@ dist/
 .yarn-integrity
 
 # Environment variables
-.env
 .env.test
 .env.local
-# database.env est commité volontairement : il contient juste le chemin
-# local vers dev.db, pas de secret. Le prof en a besoin pour lancer le projet.
+# .env et database.env sont commités volontairement : ils contiennent juste
+# le chemin local vers dev.db (DATABASE_URL="file:./dev.db"), aucun secret.
+# .env permet aux commandes Prisma (migrate/seed) de fonctionner sur toute
+# machine (Windows comme Mac) sans configuration manuelle.
 
 # Caches
 .cache
