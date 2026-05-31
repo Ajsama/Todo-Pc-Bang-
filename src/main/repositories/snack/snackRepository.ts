@@ -11,11 +11,24 @@ export class SnackRepository {
     });
   }
 
+  // Sécurité / intégrité des données : SQLite via Prisma n'exprime pas de
+  // contrainte CHECK dans le schéma, on valide donc ici avant l'insertion.
+  private valider(dto: SnackCreateDto | SnackUpdateDto): void {
+    if (dto.prix !== undefined && dto.prix < 0) {
+      throw new Error('Le prix ne peut pas être négatif');
+    }
+    if (dto.stock !== undefined && dto.stock < 0) {
+      throw new Error('Le stock ne peut pas être négatif');
+    }
+  }
+
   async addSnack(dto: SnackCreateDto): Promise<Snack> {
+    this.valider(dto);
     return this.db.snack.create({ data: dto, include: { categorie: true } });
   }
 
   async updateSnack(id: number, dto: SnackUpdateDto): Promise<Snack> {
+    this.valider(dto);
     return this.db.snack.update({
       where: { id_snack: id },
       data: dto,
