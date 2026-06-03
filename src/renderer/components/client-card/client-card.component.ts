@@ -1,3 +1,9 @@
+// =====================================================================
+//  COMPOSANT RÉUTILISABLE : LA CARTE CLIENT (une "tuile" par client)
+//  Couche : RENDERER (Angular). Enfant de client-list.
+//  Rôle   : afficher 1 client + 2 boutons. Elle ne fait PAS le travail
+//           elle-même : elle ÉMET "edit"/"delete" et le parent (la liste) agit.
+// =====================================================================
 import { Component, input, output } from '@angular/core';
 import { Client } from 'src/shared/client';
 
@@ -34,7 +40,7 @@ import { Client } from 'src/shared/client';
   `]
 })
 export class ClientCardComponent {
-  client = input.required<Client>();
-  edit = output<number>();
-  delete = output<number>();
+  client = input.required<Client>(); // donnée REÇUE du parent (obligatoire)
+  edit = output<number>();   // émis au clic "Modifier" -> le parent ouvre le formulaire
+  delete = output<number>(); // émis au clic "Supprimer" -> le parent supprime
 }

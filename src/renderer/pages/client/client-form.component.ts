@@ -1,3 +1,9 @@
+// =====================================================================
+//  FLUX CLIENT — ÉTAPE 2/6 : LE FORMULAIRE
+//  Couche : RENDERER (Angular). Composant ENFANT de client-list.
+//  Rôle   : saisir/valider les champs, puis appeler le service (ÉTAPE 3).
+//  À la fin il ÉMET l'événement "sauvegarde" que la liste écoute (ÉTAPE 7).
+// =====================================================================
 import { Component, input, output, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Client, ClientCreateDto, ClientUpdateDto } from 'src/shared/client';
@@ -73,8 +79,14 @@ export class ClientFormComponent implements OnInit {
   sauvegarde = output<Client>();
   annulation = output<void>();
 
-  enCours = false;
+  // input() = donnée REÇUE du parent (le client à modifier, ou null si création).
+  // output() = événements ÉMIS vers le parent.
 
+  enCours = false; // true pendant la sauvegarde -> désactive le bouton (anti double-clic)
+
+  // FORMULAIRE RÉACTIF : chaque champ + ses règles de validation.
+  // required = obligatoire ; Validators.email = doit ressembler à un email.
+  // Si une règle échoue, form.invalid = true et le bouton "Sauvegarder" est désactivé.
   form = this.fb.group({
     nom: ['', Validators.required],
     prenom: ['', Validators.required],
@@ -82,8 +94,10 @@ export class ClientFormComponent implements OnInit {
     telephone: ['', Validators.required]
   });
 
+  // FormBuilder (pour construire le form) et ClientService (ÉTAPE 3) sont injectés ici.
   constructor(private fb: FormBuilder, private clientService: ClientService) {}
 
+  // Si on ouvre le formulaire en MODIFICATION, on pré-remplit les champs avec les valeurs existantes.
   ngOnInit() {
     const client = this.clientAModifier();
     if (client) {
@@ -96,17 +110,22 @@ export class ClientFormComponent implements OnInit {
     }
   }
 
+  // Appelée quand on clique sur "Sauvegarder" (le <form> déclenche (ngSubmit)="onSubmit()").
   async onSubmit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) return;        // sécurité : on n'envoie rien si le form est invalide
     this.enCours = true;
-    const values = this.form.value;
+    const values = this.form.value;       // { nom, prenom, email, telephone } saisis
     const client = this.clientAModifier();
+
     if (client) {
+      // CAS MODIFICATION : un client existait déjà -> updateClient
       const updated = await this.clientService.updateClient(client.id_client, values as ClientUpdateDto);
       this.sauvegarde.emit(updated);
     } else {
+      // CAS CRÉATION (notre bouton "Ajouter") : on appelle le SERVICE ANGULAR (ÉTAPE 3).
+      // await = on attend que toute la chaîne (pont -> back -> base) réponde.
       const created = await this.clientService.addClient(values as ClientCreateDto);
-      this.sauvegarde.emit(created);
+      this.sauvegarde.emit(created); // ON ÉMET vers le parent -> déclenche onSauvegarde (ÉTAPE 7)
     }
     this.enCours = false;
   }

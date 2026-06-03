@@ -1,3 +1,11 @@
+// =====================================================================
+//  FLUX CLIENT — ÉTAPE 4/6 : LE PONT (Preload), côté envoi
+//  Couche : PRELOAD = le SEUL pont autorisé entre RENDERER et MAIN.
+//  Rôle   : franchir la frontière entre les 2 processus Electron via IPC.
+//  ipcRenderer.invoke('client:addClient', client) ENVOIE un message nommé
+//  'client:addClient' et ATTEND la réponse. Cette "étiquette" doit être
+//  IDENTIQUE à celle écoutée côté back (ipcMain.handle, ÉTAPE 5).
+// =====================================================================
 import { ipcRenderer } from "electron";
 import { IClientService } from "src/shared/interfaces/IClientService";
 import { Client, ClientCreateDto, ClientUpdateDto } from "src/shared/client";
@@ -10,6 +18,7 @@ export function clientService(): IClientService {
     async getClientById(id: number): Promise<Client | null> {
       return await ipcRenderer.invoke('client:getClientById', id);
     },
+    // IPC = Inter-Process Communication. C'est LE passage front -> back.
     async addClient(client: ClientCreateDto): Promise<Client> {
       return await ipcRenderer.invoke('client:addClient', client);
     },

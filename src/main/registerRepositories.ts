@@ -1,3 +1,8 @@
+// =====================================================================
+//  CÂBLAGE DU BACK : on "allume" toutes les oreilles IPC d'un coup.
+//  Appelé une seule fois au démarrage (depuis main.ts). À partir de là,
+//  tous les ipcMain.handle(...) sont prêts à recevoir les messages du front.
+// =====================================================================
 import { registerClientRepository } from "./repositories/client/registerClientRepository";
 import { registerPosteRepository } from "./repositories/poste/registerPosteRepository";
 import { registerReservationRepository } from "./repositories/reservation/registerReservationRepository";
