@@ -20,10 +20,22 @@ export class ReservationRepository {
 */
 
   async addReservation(dto: ReservationCreateDto): Promise<Reservation> {
-    return this.db.reservation.create({
-      data: dto,
-      include: { client: true, poste: true }
-    });
+    // TRANSACTION (tout ou rien) :
+    // 1) on cree la reservation
+    // 2) on passe le poste reserve en "Occupe"
+    // Si une des deux operations echoue, Prisma annule l'autre (rollback).
+    // Sans ca, on risquerait un poste marque "Libre" alors qu'il est reserve.
+    const [reservation] = await this.db.$transaction([
+      this.db.reservation.create({
+        data: dto,
+        include: { client: true, poste: true }
+      }),
+      this.db.poste.update({
+        where: { id_poste: dto.id_poste },
+        data: { statut: "Occupe" }
+      })
+    ]);
+    return reservation;
   }
 
   async updateReservation(id: number, dto: ReservationUpdateDto): Promise<Reservation> {
