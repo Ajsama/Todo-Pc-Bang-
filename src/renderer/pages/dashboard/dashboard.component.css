@@ -1,0 +1,9 @@
+h1 { margin-bottom: 24px; }
+h2 { margin: 24px 0 12px; font-size: 1.1rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+.card { background: #1a1a2e; color: white; border-radius: 12px; padding: 24px; text-align: center; }
+.val { font-size: 2.2rem; font-weight: bold; color: #e94560; }
+.label { color: #ccc; margin-top: 8px; font-size: 0.9rem; }
+.liste { list-style: none; padding: 0; }
+.liste li { padding: 8px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 6px; }
+.puce { display: inline-block; background: #e94560; color: white; padding: 2px 10px; border-radius: 12px; font-size: 0.85rem; margin-right: 8px; }

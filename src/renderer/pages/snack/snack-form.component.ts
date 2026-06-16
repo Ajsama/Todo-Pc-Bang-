@@ -9,62 +9,8 @@ import { CategorieService } from '../../services/categorie.service';
   selector: 'app-snack-form',
   standalone: true,
   imports: [ReactiveFormsModule],
-  template: `
-    <div class="form-overlay">
-      <div class="form-card">
-        <h2>{{ snackAModifier() ? 'Modifier le snack' : 'Ajouter un snack' }}</h2>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Nom *</label>
-            <input formControlName="nom" placeholder="Ex: Coca-Cola" />
-            @if (form.get('nom')?.invalid && form.get('nom')?.touched) {
-              <span class="error">Le nom est requis</span>
-            }
-          </div>
-          <div class="form-group">
-            <label>Prix (€) *</label>
-            <input formControlName="prix" type="number" step="0.01" min="0" />
-            @if (form.get('prix')?.invalid && form.get('prix')?.touched) {
-              <span class="error">Le prix doit être positif</span>
-            }
-          </div>
-          <div class="form-group">
-            <label>Stock</label>
-            <input formControlName="stock" type="number" min="0" />
-          </div>
-          <div class="form-group">
-            <label>Catégorie</label>
-            <select formControlName="id_categorie">
-              <option [ngValue]="null">-- Aucune --</option>
-              @for (cat of categories(); track cat.id_categorie) {
-                <option [ngValue]="cat.id_categorie">{{ cat.nom }}</option>
-              }
-            </select>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="btn btn-secondary" (click)="annulation.emit()">Annuler</button>
-            <button type="submit" class="btn btn-primary" [disabled]="form.invalid || enCours">
-              {{ enCours ? 'Sauvegarde...' : 'Sauvegarder' }}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .form-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; }
-    .form-card { background: white; border-radius: 12px; padding: 32px; width: 440px; max-width: 90vw; }
-    h2 { margin-bottom: 20px; }
-    .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 4px; }
-    .form-group label { font-weight: 500; font-size: 0.9rem; }
-    .form-group input, .form-group select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; }
-    .error { color: #dc3545; font-size: 0.8rem; }
-    .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
-    .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }
-    .btn-primary { background: #e94560; color: white; }
-    .btn-secondary { background: #6c757d; color: white; }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-  `]
+  templateUrl: './snack-form.component.html',
+  styleUrl: './snack-form.component.css'
 })
 export class SnackFormComponent implements OnInit {
   snackAModifier = input<Snack | null>(null);

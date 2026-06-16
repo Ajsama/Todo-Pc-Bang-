@@ -1,11 +1,3 @@
-// =====================================================================
-//  CONTRAT PARTAGÉ (shared) : les TYPES du Client
-//  Couche : SHARED = utilisé par le front ET le back (un seul vocabulaire).
-//  Rôle   : décrire la forme des données. Les "Dto" = ce qu'on envoie pour
-//           créer/modifier (sans l'id, généré par la base).
-//    - ClientCreateDto = un Client SANS id_client ni abonnement (création)
-//    - ClientUpdateDto = pareil mais tous les champs optionnels (modif partielle)
-// =====================================================================
 export interface Abonnement {
   id_abonnement: number;
   type: string;

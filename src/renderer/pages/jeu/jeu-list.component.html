@@ -1,0 +1,44 @@
+<div class="page-header">
+  <h1>Jeux <span class="count">({{ nombreJeux() }})</span></h1>
+  <button class="btn btn-primary" (click)="ouvrirFormulaire()">+ Ajouter un jeu</button>
+</div>
+
+@if (afficherFormulaire()) {
+  <app-jeu-form
+    [jeuAModifier]="jeuSelectionne()"
+    (sauvegarde)="onSauvegarde($event)"
+    (annulation)="fermerFormulaire()"
+  />
+}
+
+@if (chargement()) {
+  <p>Chargement...</p>
+} @else {
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Éditeur</th>
+        <th>Genre</th>
+        <th>Année</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (j of jeux(); track j.id_jeu) {
+        <tr>
+          <td><strong>{{ j.titre }}</strong></td>
+          <td>{{ j.editeur ?? '—' }}</td>
+          <td>{{ j.genre ?? '—' }}</td>
+          <td>{{ j.annee ?? '—' }}</td>
+          <td>
+            <button class="btn btn-sm btn-secondary" (click)="modifierJeu(j)">Modifier</button>
+            <button class="btn btn-sm btn-danger" (click)="supprimerJeu(j.id_jeu)">Supprimer</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="5" class="empty">Aucun jeu enregistré.</td></tr>
+      }
+    </tbody>
+  </table>
+}

@@ -1,0 +1,44 @@
+<div class="page-header">
+  <h1>Snacks <span class="count">({{ nombreSnacks() }})</span></h1>
+  <button class="btn btn-primary" (click)="ouvrirFormulaire()">+ Ajouter un snack</button>
+</div>
+
+@if (afficherFormulaire()) {
+  <app-snack-form
+    [snackAModifier]="snackSelectionne()"
+    (sauvegarde)="onSauvegarde($event)"
+    (annulation)="fermerFormulaire()"
+  />
+}
+
+@if (chargement()) {
+  <p>Chargement...</p>
+} @else {
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Catégorie</th>
+        <th>Prix</th>
+        <th>Stock</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (s of snacks(); track s.id_snack) {
+        <tr>
+          <td><strong>{{ s.nom }}</strong></td>
+          <td>{{ s.categorie?.nom ?? '—' }}</td>
+          <td>{{ s.prix.toFixed(2) }} €</td>
+          <td>{{ s.stock }}</td>
+          <td>
+            <button class="btn btn-sm btn-secondary" (click)="modifierSnack(s)">Modifier</button>
+            <button class="btn btn-sm btn-danger" (click)="supprimerSnack(s.id_snack)">Supprimer</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="5" class="empty">Aucun snack enregistré.</td></tr>
+      }
+    </tbody>
+  </table>
+}

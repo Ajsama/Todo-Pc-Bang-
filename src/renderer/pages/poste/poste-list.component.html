@@ -1,0 +1,44 @@
+<div class="page-header">
+  <h1>Postes <span class="count">({{ nombrePostes() }})</span></h1>
+  <button class="btn btn-primary" (click)="ouvrirFormulaire()">+ Ajouter un poste</button>
+</div>
+
+@if (afficherFormulaire()) {
+  <app-poste-form
+    [posteAModifier]="posteSelectionne()"
+    (sauvegarde)="onSauvegarde($event)"
+    (annulation)="fermerFormulaire()"
+  />
+}
+
+@if (chargement()) {
+  <p>Chargement...</p>
+} @else {
+  <table class="table">
+    <thead>
+      <tr>
+        <th>N° Poste</th>
+        <th>Type</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (poste of postes(); track poste.id_poste) {
+        <tr>
+          <td><strong>{{ poste.numero_poste }}</strong></td>
+          <td>{{ poste.type }}</td>
+          <td>
+            <span [class]="'badge badge-' + poste.statut">{{ poste.statut }}</span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-secondary" (click)="modifierPoste(poste)">Modifier</button>
+            <button class="btn btn-sm btn-danger" (click)="supprimerPoste(poste.id_poste)">Supprimer</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="4" class="empty">Aucun poste enregistré.</td></tr>
+      }
+    </tbody>
+  </table>
+}

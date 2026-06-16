@@ -11,70 +11,8 @@ import { PosteService } from '../../services/poste.service';
   selector: 'app-reservation-form',
   standalone: true,
   imports: [ReactiveFormsModule],
-  template: `
-    <div class="form-overlay">
-      <div class="form-card">
-        <h2>{{ reservationAModifier() ? 'Modifier la réservation' : 'Ajouter une réservation' }}</h2>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Client *</label>
-            <select formControlName="id_client">
-              <option value="">-- Sélectionner un client --</option>
-              @for (client of clients(); track client.id_client) {
-                <option [value]="client.id_client">{{ client.prenom }} {{ client.nom }}</option>
-              }
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Poste *</label>
-            <select formControlName="id_poste">
-              <option value="">-- Sélectionner un poste --</option>
-              @for (poste of postes(); track poste.id_poste) {
-                <option [value]="poste.id_poste">{{ poste.numero_poste }} ({{ poste.type }})</option>
-              }
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Date de début *</label>
-            <input formControlName="date_debut" type="datetime-local" />
-          </div>
-          <div class="form-group">
-            <label>Durée (heures) *</label>
-            <input formControlName="duree" type="number" min="1" />
-          </div>
-          <div class="form-group">
-            <label>Statut</label>
-            <select formControlName="statut">
-              <option value="EnAttente">En attente</option>
-              <option value="Confirmee">Confirmée</option>
-              <option value="EnCours">En cours</option>
-              <option value="Terminee">Terminée</option>
-              <option value="Annulee">Annulée</option>
-            </select>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="btn btn-secondary" (click)="annulation.emit()">Annuler</button>
-            <button type="submit" class="btn btn-primary" [disabled]="form.invalid || enCours">
-              {{ enCours ? 'Sauvegarde...' : 'Sauvegarder' }}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .form-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; }
-    .form-card { background: white; border-radius: 12px; padding: 32px; width: 480px; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
-    h2 { margin-bottom: 20px; }
-    .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 4px; }
-    .form-group label { font-weight: 500; font-size: 0.9rem; }
-    .form-group input, .form-group select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; }
-    .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
-    .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }
-    .btn-primary { background: #e94560; color: white; }
-    .btn-secondary { background: #6c757d; color: white; }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-  `]
+  templateUrl: './reservation-form.component.html',
+  styleUrl: './reservation-form.component.css'
 })
 export class ReservationFormComponent implements OnInit {
   reservationAModifier = input<Reservation | null>(null);

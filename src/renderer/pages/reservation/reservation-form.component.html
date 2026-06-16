@@ -1,0 +1,49 @@
+<div class="form-overlay">
+  <div class="form-card">
+    <h2>{{ reservationAModifier() ? 'Modifier la réservation' : 'Ajouter une réservation' }}</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Client *</label>
+        <select formControlName="id_client">
+          <option value="">-- Sélectionner un client --</option>
+          @for (client of clients(); track client.id_client) {
+            <option [value]="client.id_client">{{ client.prenom }} {{ client.nom }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Poste *</label>
+        <select formControlName="id_poste">
+          <option value="">-- Sélectionner un poste --</option>
+          @for (poste of postes(); track poste.id_poste) {
+            <option [value]="poste.id_poste">{{ poste.numero_poste }} ({{ poste.type }})</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date de début *</label>
+        <input formControlName="date_debut" type="datetime-local" />
+      </div>
+      <div class="form-group">
+        <label>Durée (heures) *</label>
+        <input formControlName="duree" type="number" min="1" />
+      </div>
+      <div class="form-group">
+        <label>Statut</label>
+        <select formControlName="statut">
+          <option value="EnAttente">En attente</option>
+          <option value="Confirmee">Confirmée</option>
+          <option value="EnCours">En cours</option>
+          <option value="Terminee">Terminée</option>
+          <option value="Annulee">Annulée</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="annulation.emit()">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || enCours">
+          {{ enCours ? 'Sauvegarde...' : 'Sauvegarder' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

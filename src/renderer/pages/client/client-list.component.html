@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h1>Clients <span class="count">({{ nombreClients() }})</span></h1>
+  <button class="btn btn-primary" (click)="ouvrirFormulaire()">+ Ajouter un client</button>
+</div>
+
+@if (afficherFormulaire()) {
+  <app-client-form
+    [clientAModifier]="clientSelectionne()"
+    (sauvegarde)="onSauvegarde($event)"
+    (annulation)="fermerFormulaire()"
+  />
+}
+
+@if (chargement()) {
+  <p>Chargement...</p>
+} @else {
+  <div class="grid">
+    @for (client of clients(); track client.id_client) {
+      <app-client-card
+        [client]="client"
+        (edit)="modifierClient($event)"
+        (delete)="supprimerClient($event)"
+      />
+    } @empty {
+      <p class="empty">Aucun client enregistré.</p>
+    }
+  </div>
+}

@@ -1,8 +1,3 @@
-// =====================================================================
-//  POINT D'ENTRÉE DU PROCESSUS MAIN (le "back" Electron)
-//  Rôle : charger la config base (.env), créer la fenêtre, brancher le
-//         preload, et appeler registerRepositories() pour allumer l'IPC.
-// =====================================================================
 import { app, BrowserWindow } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
@@ -26,8 +21,6 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     webPreferences: {
-      // On branche le PONT : ce fichier preload sera chargé dans la fenêtre
-      // et exposera window.electronService au front (voir preload.ts).
       preload: path.join(__dirname, 'preload.js'),
     },
   });
@@ -55,5 +48,4 @@ app.on('activate', () => {
   }
 });
 
-// On allume toutes les oreilles IPC du back (ÉTAPE 5 pour chaque entité).
 registerRepositories();

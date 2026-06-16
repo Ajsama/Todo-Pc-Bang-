@@ -1,0 +1,36 @@
+<div class="form-overlay">
+  <div class="form-card">
+    <h2>{{ posteAModifier() ? 'Modifier le poste' : 'Ajouter un poste' }}</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Numéro de poste *</label>
+        <input formControlName="numero_poste" placeholder="Ex: P01" />
+        @if (form.get('numero_poste')?.invalid && form.get('numero_poste')?.touched) {
+          <span class="error">Le numéro est requis</span>
+        }
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select formControlName="type">
+          <option value="Standard">Standard</option>
+          <option value="Premium">Premium</option>
+          <option value="VIP">VIP</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Statut *</label>
+        <select formControlName="statut">
+          <option value="Libre">Libre</option>
+          <option value="Occupe">Occupé</option>
+          <option value="Maintenance">Maintenance</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="annulation.emit()">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || enCours">
+          {{ enCours ? 'Sauvegarde...' : 'Sauvegarder' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -10,6 +10,14 @@ export class ReservationRepository {
       orderBy: { date_debut: 'desc' }
     });
   }
+/*
+  SELECT *
+  FROM reservation
+  LEFT JOIN client ON reservation.id_client = client.id_client
+  LEFT JOIN poste  ON reservation.id_poste  = poste.id_poste
+  ORDER BY reservation.date_debut DESC;
+  
+*/
 
   async addReservation(dto: ReservationCreateDto): Promise<Reservation> {
     return this.db.reservation.create({

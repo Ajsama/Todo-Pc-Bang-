@@ -1,0 +1,16 @@
+<div class="card">
+  <div class="card-header">
+    <strong>{{ client().prenom }} {{ client().nom }}</strong>
+    @if (client().abonnement) {
+      <span class="badge">{{ client().abonnement!.type }}</span>
+    }
+  </div>
+  <div class="card-body">
+    <p>{{ client().email }}</p>
+    <p>{{ client().telephone }}</p>
+  </div>
+  <div class="card-actions">
+    <button class="btn btn-secondary" (click)="edit.emit(client().id_client)">Modifier</button>
+    <button class="btn btn-danger" (click)="delete.emit(client().id_client)">Supprimer</button>
+  </div>
+</div>

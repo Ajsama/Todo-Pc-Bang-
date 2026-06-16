@@ -1,0 +1,40 @@
+<div class="form-overlay">
+  <div class="form-card">
+    <h2>{{ jeuAModifier() ? 'Modifier le jeu' : 'Ajouter un jeu' }}</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Titre *</label>
+        <input formControlName="titre" placeholder="Ex: League of Legends" />
+        @if (form.get('titre')?.invalid && form.get('titre')?.touched) {
+          <span class="error">Le titre est requis</span>
+        }
+      </div>
+      <div class="form-group">
+        <label>Éditeur</label>
+        <input formControlName="editeur" placeholder="Ex: Riot Games" />
+      </div>
+      <div class="form-group">
+        <label>Genre</label>
+        <select formControlName="genre">
+          <option value="">-- Aucun --</option>
+          <option value="FPS">FPS</option>
+          <option value="MOBA">MOBA</option>
+          <option value="RPG">RPG</option>
+          <option value="Stratégie">Stratégie</option>
+          <option value="Sport">Sport</option>
+          <option value="Course">Course</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Année de sortie</label>
+        <input formControlName="annee" type="number" min="1970" max="2100" />
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="annulation.emit()">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || enCours">
+          {{ enCours ? 'Sauvegarde...' : 'Sauvegarder' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

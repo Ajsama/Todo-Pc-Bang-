@@ -1,0 +1,33 @@
+<h1>Tableau de bord</h1>
+@if (chargement()) {
+  <p>Chargement...</p>
+} @else {
+  @if (stats(); as s) {
+    <div class="grid">
+      <div class="card"><div class="val">{{ s.nbClients }}</div><div class="label">Clients</div></div>
+      <div class="card"><div class="val">{{ s.nbPostes }}</div><div class="label">Postes</div></div>
+      <div class="card"><div class="val">{{ s.nbReservations }}</div><div class="label">Réservations</div></div>
+      <div class="card"><div class="val">{{ s.nbSnacks }}</div><div class="label">Snacks</div></div>
+      <div class="card"><div class="val">{{ s.nbJeux }}</div><div class="label">Jeux</div></div>
+      <div class="card"><div class="val">{{ total() }}</div><div class="label">Total entrées</div></div>
+    </div>
+
+    <h2>Réservations par statut</h2>
+    <ul class="liste">
+      @for (r of s.reservationsParStatut; track r.statut) {
+        <li><span class="puce">{{ r.statut }}</span> {{ r.count }} réservation(s)</li>
+      } @empty {
+        <li>Aucune réservation enregistrée.</li>
+      }
+    </ul>
+
+    <h2>Postes par statut</h2>
+    <ul class="liste">
+      @for (p of s.postesParStatut; track p.statut) {
+        <li><span class="puce">{{ p.statut }}</span> {{ p.count }} poste(s)</li>
+      } @empty {
+        <li>Aucun poste enregistré.</li>
+      }
+    </ul>
+  }
+}

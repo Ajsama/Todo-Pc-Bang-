@@ -5,12 +5,15 @@ export class DashboardRepository {
   private db = new PrismaClient();
 
   async getStats(): Promise<DashboardStats> {
+    // Comptages — SQL équivalent : SELECT COUNT(*) FROM client; (idem pour chaque table)
     const nbClients = await this.db.client.count();
     const nbPostes = await this.db.poste.count();
     const nbReservations = await this.db.reservation.count();
     const nbSnacks = await this.db.snack.count();
     const nbJeux = await this.db.jeu.count();
 
+    // Agrégat groupé — SQL équivalent :
+    // SELECT statut, COUNT(*) FROM reservation GROUP BY statut;
     const groupReservations = await this.db.reservation.groupBy({
       by: ['statut'],
       _count: { id_reservation: true },
@@ -20,6 +23,7 @@ export class DashboardRepository {
       count: g._count.id_reservation,
     }));
 
+    // SQL équivalent : SELECT statut, COUNT(*) FROM poste GROUP BY statut;
     const groupPostes = await this.db.poste.groupBy({
       by: ['statut'],
       _count: { id_poste: true },

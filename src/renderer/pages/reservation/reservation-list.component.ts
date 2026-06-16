@@ -7,73 +7,8 @@ import { ReservationFormComponent } from './reservation-form.component';
   selector: 'app-reservation-list',
   standalone: true,
   imports: [ReservationFormComponent],
-  template: `
-    <div class="page-header">
-      <h1>Réservations <span class="count">({{ nombreReservations() }})</span></h1>
-      <button class="btn btn-primary" (click)="ouvrirFormulaire()">+ Ajouter une réservation</button>
-    </div>
-
-    @if (afficherFormulaire()) {
-      <app-reservation-form
-        [reservationAModifier]="reservationSelectionnee()"
-        (sauvegarde)="onSauvegarde($event)"
-        (annulation)="fermerFormulaire()"
-      />
-    }
-
-    @if (chargement()) {
-      <p>Chargement...</p>
-    } @else {
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Client</th>
-            <th>Poste</th>
-            <th>Date début</th>
-            <th>Durée (h)</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (r of reservations(); track r.id_reservation) {
-            <tr>
-              <td>{{ r.client?.prenom }} {{ r.client?.nom }}</td>
-              <td>{{ r.poste?.numero_poste }}</td>
-              <td>{{ formatDate(r.date_debut) }}</td>
-              <td>{{ r.duree }}h</td>
-              <td><span [class]="'badge badge-' + r.statut">{{ r.statut }}</span></td>
-              <td>
-                <button class="btn btn-sm btn-secondary" (click)="modifierReservation(r)">Modifier</button>
-                <button class="btn btn-sm btn-danger" (click)="supprimerReservation(r.id_reservation)">Supprimer</button>
-              </td>
-            </tr>
-          } @empty {
-            <tr><td colspan="6" class="empty">Aucune réservation.</td></tr>
-          }
-        </tbody>
-      </table>
-    }
-  `,
-  styles: [`
-    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .count { color: #888; font-weight: normal; font-size: 1rem; }
-    .table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-    .table th, .table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #eee; }
-    .table th { background: #f8f9fa; font-weight: 600; }
-    .badge { padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; }
-    .badge-EnCours { background: #cce5ff; color: #004085; }
-    .badge-Confirmee { background: #d4edda; color: #155724; }
-    .badge-Terminee { background: #e2e3e5; color: #383d41; }
-    .badge-EnAttente { background: #fff3cd; color: #856404; }
-    .badge-Annulee { background: #f8d7da; color: #721c24; }
-    .empty { text-align: center; color: #888; padding: 24px; }
-    .btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; }
-    .btn-primary { background: #e94560; color: white; }
-    .btn-secondary { background: #6c757d; color: white; }
-    .btn-danger { background: #dc3545; color: white; }
-    .btn-sm { padding: 4px 8px; font-size: 0.8rem; margin-right: 4px; }
-  `]
+  templateUrl: './reservation-list.component.html',
+  styleUrl: './reservation-list.component.css'
 })
 export class ReservationListComponent implements OnInit {
   reservations = signal<Reservation[]>([]);
