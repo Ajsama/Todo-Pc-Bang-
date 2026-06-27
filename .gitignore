@@ -91,6 +91,9 @@ renderer/app/dist/
 # mais PAS la base ni le client généré
 src/prisma/generated/
 
+# Claude Code
+.claude/
+
 # IDE / OS
 .vscode/*
 !.vscode/launch.json

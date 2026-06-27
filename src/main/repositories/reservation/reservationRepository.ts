@@ -10,21 +10,8 @@ export class ReservationRepository {
       orderBy: { date_debut: 'desc' }
     });
   }
-/*
-  SELECT *
-  FROM reservation
-  LEFT JOIN client ON reservation.id_client = client.id_client
-  LEFT JOIN poste  ON reservation.id_poste  = poste.id_poste
-  ORDER BY reservation.date_debut DESC;
-  
-*/
 
   async addReservation(dto: ReservationCreateDto): Promise<Reservation> {
-    // TRANSACTION (tout ou rien) :
-    // 1) on cree la reservation
-    // 2) on passe le poste reserve en "Occupe"
-    // Si une des deux operations echoue, Prisma annule l'autre (rollback).
-    // Sans ca, on risquerait un poste marque "Libre" alors qu'il est reserve.
     const [reservation] = await this.db.$transaction([
       this.db.reservation.create({
         data: dto,

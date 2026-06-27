@@ -11,8 +11,6 @@ export class SnackRepository {
     });
   }
 
-  // Sécurité / intégrité des données : SQLite via Prisma n'exprime pas de
-  // contrainte CHECK dans le schéma, on valide donc ici avant l'insertion.
   private valider(dto: SnackCreateDto | SnackUpdateDto): void {
     if (dto.prix !== undefined && dto.prix < 0) {
       throw new Error('Le prix ne peut pas être négatif');

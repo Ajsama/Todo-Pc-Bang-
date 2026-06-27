@@ -1,4 +1,4 @@
-import { Component, signal, computed, OnInit, effect } from '@angular/core';
+import { Component, signal, computed, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { DashboardStats } from 'src/shared/dashboard';
 
@@ -18,9 +18,7 @@ export class DashboardComponent implements OnInit {
     return s.nbClients + s.nbPostes + s.nbReservations + s.nbSnacks + s.nbJeux;
   });
 
-  constructor(private dashboardService: DashboardService) {
-    effect(() => console.log('Le total des entrées a changé, nouvelle valeur :', this.total()));
-  }
+  constructor(private dashboardService: DashboardService) {}
 
   async ngOnInit() {
     const s = await this.dashboardService.getStats();

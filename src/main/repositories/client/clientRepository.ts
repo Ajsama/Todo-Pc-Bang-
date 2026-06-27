@@ -5,9 +5,6 @@ export class ClientRepository {
   private db = new PrismaClient();
 
   async getClients(): Promise<Client[]> {
-    // SQL équivalent :
-    // SELECT * FROM client
-    // LEFT JOIN abonnement ON client.id_abonnement = abonnement.id_abonnement;
     return this.db.client.findMany({ include: { abonnement: true } });
   }
 
@@ -16,7 +13,6 @@ export class ClientRepository {
   }
 
   async addClient(dto: ClientCreateDto): Promise<Client> {
-    // SQL équivalent : INSERT INTO client (...) VALUES (...);
     return this.db.client.create({ data: dto, include: { abonnement: true } });
   }
 
